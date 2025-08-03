@@ -27,17 +27,14 @@ jobs:
       #   with:
       #     version: v1.55.2
 
-      - name: Rodar Testes
-        run: go test -v ./...
+      - name: Rodar Testes e Gerar Coverage
+        run: go test -v ./... -coverprofile=coverage.txt
 
-      - name: Gerar Coverage
-        run: go test -coverprofile=coverage.out ./...
-
-      - name: Publicar Coverage
-        uses: actions/upload-artifact@v4
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v5
         with:
-          name: coverage
-          path: coverage.out
+          token: ${{ secrets.CODECOV_TOKEN }}
+          slug: m4rcelotoledo/cep-finder-multithreading
 
       - name: Build
         run: go build -v ./...
